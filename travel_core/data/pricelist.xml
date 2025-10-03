@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<odoo>
+	<!-- TODO #239 check pricelist logic -->
+	<record id="item1" model="product.pricelist.item">
+		<field name="base">list_price</field>
+		<field name="price_discount" eval="0.0" />
+		<field name="name">Default (Cost + Profit) Pricelist Line</field>
+	</record>
+
+	<!-- Cost Pricelist -->
+
+	<record id="cost_pricelist" model="product.pricelist">
+		<field name="name">Cost Pricelist</field>
+	</record>
+
+	<record id="cost_pricelist_item" model="product.pricelist.item">
+		<field name="base">list_price</field>
+		<field name="name">Default (Cost) Pricelist Line</field>
+	</record>
+</odoo>

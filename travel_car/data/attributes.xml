@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<odoo>
+	<record id="vehicle_transmission" model="product.attribute">
+		<field name="name">Transmission</field>
+	</record>
+	<record id="transmission_automatic" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_transmission"/>
+		<field name="name">Automatic</field>
+	</record>
+	<record id="transmission_mechanic" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_transmission"/>
+		<field name="name">Mechanic</field>
+	</record>
+
+	<record id="vehicle_class" model="product.attribute">
+		<field name="name">Class</field>
+	</record>
+	<record id="class_sedan" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_class"/>
+		<field name="name">Sedan</field>
+	</record>
+	<record id="class_compact" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_class"/>
+		<field name="name">Compact</field>
+	</record>
+	<record id="class_van" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_class"/>
+		<field name="name">Van</field>
+	</record>
+</odoo>

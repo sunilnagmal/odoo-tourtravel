@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<odoo>
+  <!-- Inherit Form view -->
+  <record id="product_template_only_form_view_inherit_travel" model="ir.ui.view">
+    <field name="name">product.template.product.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view" />
+    <field name="arch" type="xml">
+
+      <label for="standard_price" position="attributes">
+        <attribute name="attrs"></attribute>
+      </label>
+      <div name="standard_price_uom" position="attributes">
+        <attribute name="attrs"></attribute>
+      </div>
+      <field name="detailed_type" position="before">
+        <field name="travel_type" />
+      </field>
+
+      <div name="pricing" position="after">
+        <field name="has_child_price" invisible="1" />
+        <label for="list_price_child" attrs="{'invisible': [('has_child_price', '=', False)]}" />
+        <div name="pricing_children">
+          <field name="list_price_child" class="oe_inline" widget="monetary"
+            options="{'currency_field': 'currency_id', 'field_digits': True}" on_change="1"
+            attrs="{'invisible': [('has_child_price', '=', False)]}" />
+        </div>
+        <field name="has_infant_price" invisible="1" />
+        <label for="list_price_infant"
+          attrs="{'invisible': [('has_infant_price', '=', False)]}" />
+        <div name="pricing_infant">
+          <field name="list_price_infant" class="oe_inline" widget="monetary"
+            options="{'currency_field': 'currency_id', 'field_digits': True}" on_change="1"
+            attrs="{'invisible': [('has_infant_price', '=', False)]}" />
+        </div>
+      </div>
+
+      <div name="standard_price_uom" position="after">
+        <field name="has_child_price" invisible="1" />
+        <label for="standard_price_child" attrs="{'invisible': [('has_child_price', '=', False)]}" />
+        <div name="pricing_children">
+          <field name="standard_price_child" class="oe_inline" widget="monetary"
+            options="{'currency_field': 'currency_id', 'field_digits': True}" on_change="1"
+            attrs="{'invisible': [('has_child_price', '=', False)]}" />
+        </div>
+        <label for="standard_price_infant"
+          attrs="{'invisible': [('has_infant_price', '=', False)]}" />
+        <div name="pricing_infant">
+          <field name="standard_price_infant" class="oe_inline" widget="monetary"
+            options="{'currency_field': 'currency_id', 'field_digits': True}" on_change="1"
+            attrs="{'invisible': [('has_infant_price', '=', False)]}" />
+        </div>
+      </div>
+
+      <div name="options" position="inside">
+        <span class="d-inline-block">
+          <field name="travel_product" />
+          <label for="travel_product" />
+        </span>
+      </div>
+
+      <page name="general_information" position="after">
+        <page name="Travel Information">
+
+        </page>
+      </page>
+    </field>
+  </record>
+
+  <record id="travel_product_core_tree_view" model="ir.ui.view">
+    <field name="name">travel.product.template..core.tree.view</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="after">
+        <field name="travel_type" />
+      </xpath>
+    </field>
+  </record>
+</odoo>

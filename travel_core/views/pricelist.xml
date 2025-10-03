@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<odoo>
+  <record id="travel_product_pricelist_item_view" model="ir.ui.view">
+    <field name="name">travel.product.pricelist.item.form</field>
+    <field name="model">product.pricelist.item</field>
+    <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+    <field name="arch" type="xml">
+      <field name="categ_id" position="after">
+        <field name="supplier_id" />
+      </field>
+      <xpath expr="//group[@name='pricelist_rule_base']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+
+      <xpath expr="//group[@name='pricelist_rule_base']" position="after">
+        <group>
+          <span class="o_form_label">New Price =</span>
+          <span class="o_form_label">(Base Price +</span>
+          <field name="margin_per_pax" nolabel="1"/>
+          <span class="o_form_label">*paxs) *( 1 + </span>
+          <field name="price_discount" nolabel="1"/>
+          <span class="o_form_label"> ) + </span>
+          <field name="price_surcharge" nolabel="1"/>
+          <newline/>
+          <field name="price_round" string="Rounding Method"/>
+          <field name="price_min_margin" string="Min. Margin"/>
+          <field name="price_max_margin" string="Max. Margin"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
+
+  <!--
+  TODO: #154 Check if this is needed
+  <record id="product_supplierinfo_form_view2" model="ir.ui.view">
+    <field name="name">product.supplierinfo.form.view2</field>
+    <field name="model">product.supplierinfo</field>
+    <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='pricelist_ids']" position="attributes">
+        <attribute name="groups"></attribute>
+      </xpath>
+    </field>
+  </record>
+  -->
+
+
+</odoo>

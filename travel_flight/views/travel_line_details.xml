@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="travel_line_details_form_view" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.form.view</field>
+        <field name="model">travel.line.details</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="travel_core.travel_line_details_form_view" />
+        <field name="arch" type="xml">
+            <group name="travel_type" position="after">
+                <group name="flight_product">
+                    <group>
+                        <label for="flight_id"
+                            attrs="{'invisible': [('travel_type', '!=', 'flight')]}" />
+                        <div attrs="{'invisible': [('travel_type', '!=', 'flight')]}">
+                            <field name="flight_id" />
+                        </div>
+                    </group>
+                    <group>
+                        <label for="airline_id"
+                            attrs="{'invisible': [('travel_type', '!=', 'flight')]}" />
+                        <div attrs="{'invisible': [('travel_type', '!=', 'flight')]}">
+                            <field name="airline_id" readonly="1" />
+                        </div>
+                    </group>
+                </group>
+            </group>
+            <group name="location_end" position="inside">
+            </group>
+        </field>
+    </record>
+</odoo>

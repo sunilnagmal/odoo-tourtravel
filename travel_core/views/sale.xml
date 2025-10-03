@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<odoo>
+
+  <record id="view_quotation_tree_inherit" model="ir.ui.view">
+    <field name="name">sale.order.tree</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_quotation_tree" />
+    <field name="arch" type="xml">
+      <field name="create_date" position="after">
+        <field name="validity_date" string="Option date" />
+      </field>
+      <field name="partner_id" position="after">
+        <field name="reservation_number" />
+        <field name="traveler_name" />
+        <field name="start_date" />
+        <field name="end_date" />
+      </field>
+    </field>
+  </record>
+
+  <!-- Inherit Form View to Modify it -->
+  <record id="view_sales_order_filter_inherit" model="ir.ui.view">
+    <field name="name">sale.order.list.select</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_sales_order_filter" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='partner_id']" position="after">
+        <field name="traveler_name" string="Guest name"
+          filter_domain="[('traveler_name', 'ilike', self)]" />
+        <field name="reservation_number" string="Reservation number"
+          filter_domain="[('reservation_number', 'ilike', self)]" />
+        <field name="supplier_id" string="Supplier" filter_domain="[('supplier_id', 'ilike', self)]" />
+      </xpath>
+
+    </field>
+  </record>
+  <!-- Orders -->
+
+  <!-- <record id="travel_sale_order_search_view" model="ir.ui.view">
+    <field name="name">travel.sale.order.search.view</field>
+    <field name="model">sale.order</field>
+    <field name="arch" type="xml">
+    <search string="Sales">
+    <field name="lead_name" string="Lead name" filter_domain="[('lead_name', 'ilike', self)]"/>
+    <field name="name" string="Reference" filter_domain="[('name', 'ilike', self)]"/>
+    <field name="client_order_ref" string="Customer Reference" filter_domain="[('client_order_ref',
+  'ilike', self)]"/>
+    <filter name="upcoming" string="Upcoming" domain="[('end_date', '&lt;=', (context_today() +
+  datetime.timedelta(30)).strftime('%%Y-%%m-%%d')), ('end_date', '&gt;=', (context_today() +
+  datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]"/>
+    <filter name="now" string="Now" domain="[('date_order', '&lt;=', (context_today() -
+  datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('end_date', '&gt;=', (context_today() +
+  datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]"/>
+    <filter name="next" string="Next" domain="[('date_order', '&gt;=', (context_today() +
+  datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]"/>
+    <filter name="fourweek" string="4 Weeks" domain="[('date_order', '=', (context_today() +
+  datetime.timedelta(30)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]"/>
+    <separator/>
+    <filter name='draft' string="Draft" domain="[('state','=','draft')]"/>
+    <filter name='confirmed' string="Confirmed" domain="[('state','=','manual')]"/>
+    <filter name='done' string="Done" domain="[('state','=','done')]"/>
+    <filter name='canceled' string="Cancelled" domain="[('state','=','cancel')]"/>
+    <group expand="0" string="Group By...">
+    <filter name='customer' string="Customer" domain="[]" context="{'group_by':'partner_id'}"/>
+    <filter name='status' string="Status" domain="[]" context="{'group_by':'state'}"/>
+    <separator/>
+    <filter name='date' string="Start date" domain="[]" context="{'group_by': 'date_order'}"/>
+  </group>
+</search>
+</field>
+</record> -->
+
+  <record id="travel_sale_order_tree_view" model="ir.ui.view">
+    <field name="name">travel.sale.order.tree.view</field>
+    <field name="model">sale.order</field>
+    <field name="priority">10</field>
+    <field name="arch" type="xml">
+      <tree decoration-danger="start_date &gt;= current_date and state == 'draft'"
+        decoration-bf="state == 'cancel'"
+        decoration-info="start_date &gt;= current_date and state == 'sale'">
+        <field name="name" />
+        <field name="partner_id" />
+        <field name="client_order_ref" string="Reference" />
+        <field name="lead_name" />
+        <field name="start_date" />
+        <field name="end_date" />
+        <field name="state" />
+        <button name="to_confirm" type="object" string="Confirm" states="draft" icon="fa-check" />
+        <button name="to_cancel" type="object" string="Cancel" states="manual" icon="fa-times" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="sale.action_orders" model="ir.actions.act_window">
+    <field name="view_id" ref="travel_sale_order_tree_view" />
+    <field name="context">{'all_sales': True}</field>
+    <field name="domain">[]</field>
+    <!-- TODO <field name="search_view_id" ref="travel_sale_order_search_view"/> -->
+  </record>
+
+  <record id="travel_sale_order_form_view" model="ir.ui.view">
+    <field name="name">travel.sale.order.form.view</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='validity_date']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='validity_date']" position="after">
+        <field name="validity_date" attrs="{'invisible': [('state', 'in', ['sale', 'done'])]}"
+          string="Option date" />
+      </xpath>
+      <xpath expr="//form/sheet/group" position="after">
+        <group>
+          <group>
+            <field name="traveler_name" />
+            <field name="client_order_ref" string="Reference" />
+            <label for="start_date" string="Date" />
+            <div class="o_row">
+              <field name="start_date" class="oe_inline" nolabel="1" /> - <field name="end_date"
+                class="oe_inline" nolabel="1" />
+            </div>
+            <field name="supplier_id" string="Supplier" />
+            <label for="flight_in" string="Flights" />
+            <div class="o_row">
+              <field name="flight_in" class="oe_inline" nolabel="1" style="width: 30%%" /> - <field
+                name="flight_out" class="oe_inline" nolabel="1" style="width: 40%%" />
+            </div>
+            <field name="partner_invoice_id" groups="account.group_delivery_invoice_address"
+              context="{'default_type':'invoice'}" />
+            <field name="partner_shipping_id" groups="account.group_delivery_invoice_address"
+              context="{'default_type':'delivery'}" />
+            <field name="project_id"
+              context="{'partner_id':partner_id, 'default_pricelist_id':pricelist_id, 'default_name':name}"
+              groups="analytic.group_analytic_accounting" />
+          </group>
+          <group>
+            <field name="pricelist_id" groups="product.group_sale_pricelist" />
+            <field name="currency_id" invisible="1" />
+            <field name="company_id" invisible="1" groups="!base.group_multi_company" />
+            <field name="pricelist_id" invisible="1" groups="!product.group_sale_pricelist" />
+          </group>
+        </group>
+      </xpath>
+
+      <page name='order_lines' position="attributes">
+        <attribute name="invisible">1</attribute>
+      </page>
+      <page name='order_lines' position="after">
+        <page string='Order Lines'>
+          <field name="order_line"
+            context="{'default_start_date': start_date, 'default_end_date': end_date, 'default_supplier_id': supplier_id}">
+            <!-- Tree -->
+            <tree>
+              <field name="sequence" widget="handle" />
+              <field name="state" invisible="1" />
+              <field name="product_uom" invisible="1" groups="!uom.group_uom" />
+              <field name="travel_type" string="Category" />
+              <field name="product_id" invisible="1"
+                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}" />
+              <field name="name" string="Name" />
+              <field name="start_date" />
+              <field name="end_date" />
+              <field name="adults" string="Ads" />
+              <field name="children" string="Chs" />
+              <field name="product_uom_qty" string="Qty"
+                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom}" />
+              <field name="product_uom" invisible="1" options='{"no_open": True}' />
+              <field name="price_unit" string="Price" />
+              <field name="discount" groups="product.group_discount_per_so_line" />
+              <field name="price_subtotal" />
+              <field name="supplier_id" string="Supplier" />
+              <button name="to_confirm" type="object" string="Confirm" states="draft,cancel"
+                icon="fa-check" />
+              <button name="to_cancel" type="object" string="Cancel" states="sale" icon="fa-times" />
+              <button name="print_voucher" type="object" string="Voucher" icon="fa-file-text-o" />
+            </tree>
+            <!-- End Tree -->
+          </field>
+          <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+            <field name="amount_untaxed" widget='monetary'
+              options="{'currency_field': 'currency_id'}" />
+            <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}" />
+            <div class="oe_subtotal_footer_separator oe_inline">
+              <label for="amount_total" />
+            </div>
+            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator"
+              widget='monetary' options="{'currency_field': 'currency_id'}" />
+          </group>
+          <div class="oe_clear" />
+          <field name="note" class="oe_inline" placeholder="Terms and conditions..." />
+        </page>
+        <page string="Paxs">
+          <field name="pax_ids">
+            <tree editable="bottom">
+              <field name="order_id" invisible="1" />
+              <field name="order_line_id" />
+              <field name="name" />
+              <field name="reservation_number" />
+            </tree>
+          </field>
+        </page>
+      </page>
+
+    </field>
+  </record>
+
+  <!-- Reservations -->
+
+  <!-- Inherit Form View to Modify it -->
+  <record id="view_order_tree_inherit" model="ir.ui.view">
+    <field name="name">sale.order.tree</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_tree" />
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='date_order']" position="after">
+        <field name="validity_date" string="Option Date" />
+      </xpath>
+
+      <xpath expr="//field[@name='partner_id']" position="after">
+        <field name="reservation_number" />
+        <field name="traveler_name" />
+        <field name="start_date" />
+        <field name="end_date" />
+      </xpath>
+
+      <xpath expr="//field[@name='user_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='company_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='amount_total']" position="after">
+        <field name="supplier_id" />
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>

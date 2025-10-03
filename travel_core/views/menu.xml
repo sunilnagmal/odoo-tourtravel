@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+	<menuitem name="Travel" id="travel_menu" sequence="50" web_icon="travel_core,static/description/icon.png"/>
+	<menuitem name="Orders" id="travel_menu_orders" parent="travel_menu" sequence="10"/>
+
+	<menuitem name="Products" id="travel_menu_products" parent="travel_menu" sequence="20"/>
+
+	<menuitem name="Invoices" id="travel_menu_invoices" parent="travel_menu" sequence="30"/>
+
+	<menuitem name="Settings" id="travel_menu_settings" parent="travel_menu" sequence="50"/>
+
+	<menuitem id="sale.menu_sale_quotations" name="Quotations" parent="travel_menu_orders"/>
+
+	<menuitem id="sale.menu_sale_order" name="Orders" parent="travel_menu_orders"/>
+
+	<menuitem id="account.menu_product_product_categories" name="Product categories" parent="travel_menu_settings"/>
+
+	<menuitem id="purchase.menu_product_pricelist_action2_purchase" name="Vendors pricelist" parent="travel_menu_settings"/>
+
+	<menuitem id="sale.menu_product_template_action" name="Products" parent="travel_menu_products"/>
+
+	<menuitem id="sale.menu_products" name="Products Variants" parent="travel_menu_products"/>
+
+
+	<menuitem id="sale.menu_product_uom_categ_form_action" name="Unit of measure" parent="travel_menu_settings"/>
+
+	<menuitem id="sale.menu_product_pricelist_main" name="Pricelists" parent="travel_menu_products"/>
+
+	<menuitem id="account.menu_action_move_out_receipt_type" parent="travel_menu_invoices"/>
+
+	<menuitem id="account.menu_action_move_in_receipt_type" parent="travel_menu_invoices"/>
+
+
+	<!-- <record id="account_voucher.menu_encode_entries_by_voucher" model="ir.ui.menu">
+			<field name="parent" ref="travel_menu" />
+		</record> -->
+
+
+	<!-- TODO
+			<record id="base.menu_partner_form" model="ir.ui.menu">
+			<field name="parent" ref="travel_core.travel_menu_settings" />
+			<field name="action" ref="base.action_partner_customer_form" />
+			<field name="sequence">1</field>
+		</record>
+		<record id="product.menu_product_pricelist_action2" model="ir.ui.menu">
+			<field name="parent" ref="travel_core.travel_menu_settings" />
+			<field name="sequence">3</field>
+		</record>
+
+		<menuitem id="" parent="travel_menu"/>
+
+-->
+	<!-- Hide menu products -->
+	<!-- <menuitem id="travel_core.travel_menu_products" parent="travel_menu"/>
+		<menuitem id="product.menu_product_template_action" parent="travel_menu"/> -->
+
+</odoo>

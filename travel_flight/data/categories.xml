@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<odoo>
+	<record id="product_category_flight" model="product.category">
+		<field name="name">Flight</field>
+		<field name="parent_id" ref="product.product_category_all" />
+		<field name="voucher_name">travel_flight.flight_travel_voucher_report</field>
+	</record>
+</odoo>

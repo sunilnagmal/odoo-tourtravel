@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="travel_sale_order_line_car_form_view" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.car.form.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="travel_core.travel_sale_order_line_form_view" />
+        <field name="arch" type="xml">
+            <group name="paxs_fields" position="after">
+                <group name="car_fields" string="Car Information"
+                    attrs="{'invisible': [('travel_type', '!=', 'car')]}" class="oe_edit_only"
+                    colspan="4">
+                    <field name="transmission_id" context="{'show_attribute': False}" />
+                    <field name="class_id" context="{'show_attribute': False}" />
+                </group>
+            </group>
+        </field>
+    </record>
+    <record id="travel_sale_order_line_car_search_view" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.car.search.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="travel_core.travel_sale_order_line_search_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//separator" position="after">
+                <filter name='car' icon="fa-check" string="Car"
+                    domain="[('category_id.name','=','Car')]" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="travel_reservations_car_action" model="ir.actions.act_window">
+        <field name="name">Cars</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="travel_core.travel_sale_order_line_tree_view" />
+        <field name="search_view_id" ref="travel_core.travel_sale_order_line_search_view" />
+        <field name="domain">[('travel_type', '=', 'car')]</field>
+    </record>
+
+    <menuitem id="travel_reservations_car_menu" action="travel_reservations_car_action"
+        parent="travel_core.travel_reservations_menu" sequence="2" />
+
+</odoo>

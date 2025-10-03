@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="travel_destination_tree_view" model="ir.ui.view">
+        <field name="name">travel.destination.tree.view</field>
+        <field name="model">travel_core.destination</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="travel_destination_form_view" model="ir.ui.view">
+        <field name="name">travel.destination.form.view</field>
+        <field name="model">travel_core.destination</field>
+        <field name="arch" type="xml">
+            <form string="Destination" version="7.0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="code"/>
+                        </group>
+                    </group>
+                    <separator/>
+                    <group>
+                        <field name="description" colspan="4"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="travel_destination_action" model="ir.actions.act_window">
+        <field name="name">Destinations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">travel_core.destination</field>
+
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="travel_destination_tree_view"/>
+    </record>
+
+    <menuitem id="travel_destination_menu" parent="travel_core.travel_menu_settings" action="travel_destination_action" sequence="4"/>
+</odoo>

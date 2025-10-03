@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_account_invoice_filter_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.select</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="traveler_name" string="Guest name"
+                    filter_domain="[('traveler_name', 'ilike', self)]" />
+                <field name="reservation_number" string="Reservation number"
+                    filter_domain="[('reservation_number', 'ilike', self)]" />
+            </xpath>
+
+        </field>
+    </record>
+    <record id="view_out_invoice_tree_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_date'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_date_due']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_partner_display_name'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_partner_display_name'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="invoice_date" string="Invoice Date" />
+                <field name="invoice_date_due" widget="remaining_days" optional="show"
+                    attrs="{'invisible': [['payment_state', 'in', ('paid', 'in_payment', 'reversed')]]}" />
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="invoice_partner_display_name" string="Customer" />
+            </xpath>
+            <xpath expr="//field[@name='invoice_partner_display_name']" position="after">
+                <field name="reservation_number" />
+                <field name="traveler_name" />
+                <field name="start_date" />
+                <field name="end_date" />
+            </xpath>
+            <xpath expr="//field[@name='amount_total_in_currency_signed']" position="after">
+                <field name="supplier_id"
+                    invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund','out_receipt')" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

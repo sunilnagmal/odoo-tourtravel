@@ -1,0 +1,154 @@
+<odoo>
+    <!-- Travel line details views -->
+    <record id="travel_line_details_form_view" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.form.view</field>
+        <field name="model">travel.line.details</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <form>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" attrs="{'readonly': True}" />
+                    </h1>
+                </div>
+                <group name="travel_type">
+                    <group>
+                        <label for="travel_type" />
+                        <div>
+                            <field name="travel_type" />
+                        </div>
+                    </group>
+                    <group>
+                        <label for="product_template_id" />
+                        <div>
+                            <field name="product_template_id" />
+                        </div>
+                    </group>
+                </group>
+                <group name="product_details">
+                    <group name="product_id">
+                        <label for="traveler_name" />
+                        <div>
+                            <field name="traveler_name" />
+                        </div>
+                        <label for="product_id" />
+                        <div>
+                            <field name="product_id" readonly="1" />
+                        </div>
+                    </group>
+                    <group name="product_attributes">
+
+                    </group>
+                </group>
+                <group name="locations">
+                    <group name="location_start">
+                        <label for="start_place" />
+                        <div>
+                            <field name="start_place" />
+                        </div>
+                    </group>
+                    <group name="location_end">
+                        <label for="end_place" />
+                        <div>
+                            <field name="end_place" />
+                        </div>
+                    </group>
+                </group>
+                <separator string="Travellers" />
+                <group>
+                    <group>
+                        <field name="adults" />
+                        <field name="children" />
+                        <field name="infants_visible" invisible="1" />
+                        <field name="infants"
+                            attrs="{'invisible': [('infants_visible', '=', False)]}" />
+                    </group>
+                    <group>
+                        <label for="price_unit" />
+                        <div class="o_row">
+                            <field name="price_unit" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                            <span>-</span>
+                            <field name="cost_unit" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                        </div>
+                        <label for="price_unit_child" />
+                        <div class="o_row">
+                            <field name="price_unit_child" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                            <span>-</span>
+                            <field name="cost_unit_child" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                        </div>
+                        <label for="price_unit_infant"
+                            attrs="{'invisible': [('infants_visible', '=', False)]}" />
+                        <div class="o_row" attrs="{'invisible': [('infants_visible', '=', False)]}">
+                            <field name="price_unit_infant" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                            <span>-</span>
+                            <field name="cost_unit_infant" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                        </div>
+                    </group>
+                </group>
+                <separator string="Summary" />
+                <group>
+                    <group class="oe_total_box">
+                        <field name="quantity" attrs="{'readonly': True}" />
+                    </group>
+                    <group class="oe_total_box">
+                        <label for="total_price" />
+                        <div class="o_row">
+                            <field name="total_price" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}"
+                                attrs="{'readonly': True}" />
+                            <span>-</span>
+                            <field name="total_cost" widget="monetary"
+                                options="{'currency_field': 'currency_id', 'field_digits': True}"
+                                attrs="{'readonly': True}" />
+                        </div>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="travel_line_details_tree_view" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.tree.view</field>
+        <field name="model">travel.line.details</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="sequence" widget="handle" />
+                <field name="travel_type" />
+                <field name="traveler_name" />
+                <field name="name" optional="hide" />
+                <field name="start_place" />
+                <field name="end_place" />
+                <field name="flight_id" string="Flight" optional="show" />
+                <field name="airline_id" optional="hide" string="Airline" />
+                <field name="product_template_id" invisible="1" />
+                <field name="product_id" />
+                <field name="quantity" />
+                <field name="adults" optional="show" />
+                <field name="children" optional="hide" />
+                <field name="infants" optional="hide" />
+                <field name="price_unit" optional="hide" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="price_unit_child" optional="hide" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="price_unit_infant" optional="hide" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="cost_unit" optional="hide" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="cost_unit_child" optional="hide" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="cost_unit_infant" optional="hide" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="total_cost" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+                <field name="total_price" widget="monetary"
+                    options="{'currency_field': 'currency_id', 'field_digits': True}" />
+            </tree>
+        </field>
+    </record>
+</odoo>

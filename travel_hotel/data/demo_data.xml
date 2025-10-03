@@ -1,0 +1,37 @@
+<odoo>
+    <record id="product_hotel_sunrise" model="product.template">
+        <field name="name">Sunrise Hotel</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_hotel" />
+        <field name="list_price">120.00</field>
+        <field name="default_code">HOTEL-SUNRISE</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Comfortable rooms with a beautiful sunrise view.</field>
+        <field name="travel_type">hotel</field>
+    </record>
+
+    <record id="product_hotel_oceanview" model="product.template">
+        <field name="name">Oceanview Resort</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_hotel" />
+        <field name="list_price">200.00</field>
+        <field name="default_code">HOTEL-OCEANVIEW</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Luxury resort with oceanfront rooms and amenities.</field>
+        <field name="travel_type">hotel</field>
+    </record>
+
+    <record id="product_hotel_citycenter" model="product.template">
+        <field name="name">City Center Hotel</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_hotel" />
+        <field name="list_price">85.00</field>
+        <field name="default_code">HOTEL-CITYCENTER</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Conveniently located hotel in the heart of the city.</field>
+        <field name="travel_type">hotel</field>
+    </record>
+</odoo>

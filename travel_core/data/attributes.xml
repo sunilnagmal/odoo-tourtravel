@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<odoo>
+	<record id="product_attribute_supplement" model="product.attribute">
+		<field name="name">Supplement</field>
+	</record>
+</odoo>

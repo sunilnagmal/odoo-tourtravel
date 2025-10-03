@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="travel_sale_report_search_view" model="ir.ui.view">
+  <!-- TODO: #72 Expand Odoo's original view -->
+    <field name="name">travel.sale.report.search.view</field>
+    <field name="model">sale.report</field>
+    <field name="arch" type="xml">
+      <search string="Sales Analysis">
+        <filter name='draft' icon="fa-check" string="Draft" domain="[('state','=','draft')]"/>
+        <filter name='confirmed' icon="fa-check" string="Confirmed" domain="[('state','=','sale')]"/>
+        <filter name='done' icon="fa-check" string="Done" domain="[('state','=','done')]"/>
+        <filter name='cancel' icon="fa-check" string="Cancel" domain="[('state','=','cancel')]"/>
+        <separator name="products"/>
+        <group expand="1" string="Group By...">
+          <filter string="Salesperson" icon="fa-user" name="User" context="{'group_by':'user_id'}"/>
+          <filter string="Customer" icon="fa-person" name="Customer" context="{'group_by':'partner_id'}"/>
+          <filter string="Supplier" icon="fa-person" name="Supplier" context="{'group_by':'supplier_id'}"/>
+          <filter name='product' string="Product" icon="fa-download" context="{'group_by':'product_id','set_visible':True}"/>
+          <filter string="Category" icon="fa-truck" name="Category" context="{'group_by':'categ_id'}"/>
+          <filter name='analytic' string="Analytic Account" icon="fa-folder" context="{'group_by':'analytic_account_id'}" groups="analytic.group_analytic_accounting"/>
+          <filter name='status' string="Status" icon="fa-wand-magic" context="{'group_by':'state'}"/>
+          <filter name='company' string="Company" icon="fa-house" groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
+          <filter name="date" string="Date" icon="fa-calendar-day" context="{'group_by':'date'}" help="Ordered date of the sales order"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="sale.action_order_report_all" model="ir.actions.act_window">
+    <field name="search_view_id" ref="travel_sale_report_search_view"/>
+  </record>
+
+</odoo>

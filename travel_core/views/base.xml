@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+    <menuitem id="travel_partner_supplier_menu" parent="travel_core.travel_menu_settings" action="base.action_partner_supplier_form" sequence="2"/>
+    <record id="travel_res_partner_search_view" model="ir.ui.view">
+        <field name="name">travel.res.partner.search.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="before">
+                <field name="name" filter_domain="['|','|',('name','ilike',self),('parent_id','ilike',self),('ref','=',self)]"/>
+                <filter string="Contacts" name="type_person" domain="[('is_company','=',0)]"/>
+                <filter string="Customers" name="customer" domain="[('customer_rank','&gt;',1)]" help="Customer Partners"/>
+                <filter string="Suppliers" name="supplier" domain="[('supplier_rank','&gt;',1)]" help="Supplier Partners"/>
+                <separator/>
+                <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                <field name="user_id"/>
+                <field name="parent_id" domain="[('is_company','=',1)]" filter_domain="[('parent_id','child_of',[self])]"/>
+                <group expand="0" string="Group By...">
+                    <filter name="salesperson" string="Salesperson" icon="fa-user" domain="[]" context="{'group_by' : 'user_id'}"/>
+                    <filter name="company" string="Company" context="{'group_by': 'parent_id'}"/>
+                    <filter name="country" string="Country" context="{'group_by': 'country_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="product.menu_product_template_action" action="product.product_template_action" parent="sale.product_menu_catalog" sequence="1" groups="base.group_system" />
+
+</odoo>

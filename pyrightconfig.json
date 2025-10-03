@@ -1,0 +1,5 @@
+{
+    "include": ["**/*.py"],  // Analyse tous les fichiers .py récursivement
+    "exclude": ["**/venv/**", "**/migrations/**"],  // Exclut certains dossiers
+    //"typeCheckingMode": "strict"  // Mode strict pour plus de détections
+}

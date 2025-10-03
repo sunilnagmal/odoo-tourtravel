@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <menuitem id="travel_attributes_menu" parent="travel_core.travel_menu_settings" action="product.attribute_action" sequence="5"/>
+</odoo>

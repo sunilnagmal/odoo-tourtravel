@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<odoo>
+	<!-- Plans -->
+	<record id="product_attribute_meal_plan" model="product.attribute">
+		<field name="name">Meal plan</field>
+	</record>
+	<record id="attribute_value_meal_plan_room_only" model="product.attribute.value">
+		<field name="name">Room only</field>
+		<field name="attribute_id" ref="product_attribute_meal_plan" />
+	</record>
+
+	<record id="attribute_value_meal_plan_breakfast" model="product.attribute.value">
+		<field name="name">Breakfast</field>
+		<field name="attribute_id" ref="product_attribute_meal_plan" />
+	</record>
+
+	<record id="product_attribute_room_view" model="product.attribute">
+		<field name="name">Room view</field>
+	</record>
+
+	<record id="product_attribute_value_any_view" model="product.attribute.value">
+		<field name="name">Any</field>
+		<field name="attribute_id" ref="product_attribute_room_view" />
+
+	</record>
+
+	<!-- Rooms -->
+	<record id="product_attribute_room_type" model="product.attribute">
+		<field name="name">Room type</field>
+	</record>
+
+	<record id="product_attribute_value_single" model="product.attribute.value">
+		<field name="name">Single room</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+
+	</record>
+
+	<record id="product_attribute_value_double" model="product.attribute.value">
+		<field name="name">Double room</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+	</record>
+
+	<record id="product_attribute_value_triple" model="product.attribute.value">
+		<field name="name">Triple room</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+	</record>
+
+	<record id="product_attribute_value_quad" model="product.attribute.value">
+		<field name="name">Quad room</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+	</record>
+
+	<record id="product_attribute_value_1_br_suite" model="product.attribute.value">
+		<field name="name">1 BR suite</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+	</record>
+
+	<record id="product_attribute_value_2_br_suite" model="product.attribute.value">
+		<field name="name">2 BR suite</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+	</record>
+
+	<record id="product_attribute_value_jr_suite" model="product.attribute.value">
+		<field name="name">Junior suite 2 PAX</field>
+		<field name="attribute_id" ref="product_attribute_room_type" />
+	</record>
+
+</odoo>

@@ -1,0 +1,221 @@
+<odoo>
+    <record id="travel_sale_order_line_form_view" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.form.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <!-- Form -->
+            <form string="Sales Order Lines" version="7.0">
+                <header>
+                    <button name="to_request" type="object" string="Request!" states="draft,cancel" />
+                    <button name="to_requested" type="object" string="Requested" states="request" />
+                    <button name="to_confirm" type="object" string="Confirm" states="requested" />
+                    <button name="to_cancel" type="object" string="Cancel"
+                        states="sale,request,requested" />
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,request,requested,sale,done"
+                        statusbar_colors='{"exception":"red","cancel":"red"}' />
+                </header>
+                <group>
+                    <group name="left_pane">
+                        <field name="state" invisible="1" />
+                        <field name="travel_type" />
+                        <field name="category" invisible="1" />
+                        <field name="product_uom_category_id" invisible="1" />
+                        <field name="product_template_id" widget="many2one"
+                            domain="[('travel_type', '=', travel_type)]"
+                            context="{'default_travel_type': travel_type, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'supplier_id':supplier_id, 'params': {'category': category, 'start_date': start_date, 'end_date': end_date, 'adults': adults, 'children': children} }"
+                            options="{'no_create_edit': True, 'no_create': True}" />
+                        <field name="product_id"
+                            domain="[('product_tmpl_id', '=', product_template_id)]" readonly="0" />
+                        <field name="calculation_method_visible" invisible="1" />
+                        <field name="calculation_method"
+                            attrs="{'invisible': [('calculation_method_visible', '=', False)]}" />
+                        <label for="start_date" string="Dates" />
+                        <div class="o_row">
+                            <field name="start_date"
+                                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'supplier_id':supplier_id, 'params': {'category': category, 'start_date': start_date, 'end_date': end_date, 'adults': adults, 'children': children} }"
+                                nolabel="1" class="oe_inline" required="1" />
+                            <span>-</span>
+                            <field name="end_date"
+                                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'supplier_id':supplier_id, 'params': {'category': category, 'start_date': start_date, 'end_date': end_date, 'adults': adults, 'children': children} }"
+                                nolabel="1" class="oe_inline" />
+                        </div>
+                        <label for="product_uom_qty" />
+                        <div>
+                            <field
+                                context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'supplier_id':supplier_id, 'params': {'category': category, 'start_date': start_date, 'end_date': end_date, 'adults': adults, 'children': children} }"
+                                name="product_uom_qty" class="oe_inline" />
+                            <field name="product_uom" groups="uom.group_uom"
+                                class="oe_inline oe_no_button" />
+                            <field name="product_uom" invisible="1" groups="!uom.group_uom" />
+                            <field name="supplier_id" invisible="1" groups="!base.group_user" />
+                            <field name="children" invisible="1" groups="!base.group_user" />
+                        </div>
+                        <label for="price_unit" />
+                        <div class="o_row">
+                            <field name="price_unit" class="oe_inline" />
+                            <span>-</span>
+                            <field name="price_unit_cost" class="oe_inline" />
+                            <field name="currency_cost_id" widget="selection" class="oe_inline"
+                                invisible="1" />
+                        </div>
+
+                        <label for="discount" groups="product.group_discount_per_so_line" />
+                        <div name="discount" groups="product.group_discount_per_so_line">
+                            <field name="discount" class="oe_inline" /> %% </div>
+                        <field name="supplier_id"
+                            context="{'supplier': True, 'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'supplier_id':supplier_id, 'params': {'category': category, 'start_date': start_date, 'end_date': end_date, 'adults': adults, 'children': children} }" />
+                        <field name="reservation_number" attrs="{'readonly': False}" invisible="1" />
+                    </group>
+                    <group name="right_pane">
+                        <div name="hint"
+                            attrs="{'invisible': [('details_tab_visible', '=', False)]}"
+                            colspanl="4">
+                            <p class="oe_grey oe_edit_only">
+                                <strong>Hint</strong>: Use 'Travel Lines details' tab to add
+                                details. </p>
+                        </div>
+                        <group name="paxs_fields" string="Pax details" colspan="4">
+                            <field name="adults" />
+                            <field name="children" />
+                            <field name="infants_visible" invisible="1" />
+                            <field name="infants"
+                                attrs="{'invisible': [('infants_visible', '=', False)]}" />
+                            <field name="paxs" />
+                        </group>
+                        <group name="dynamic_fields" colspan="4">
+
+                        </group>
+                    </group>
+                </group>
+                <field name="details_tab_visible" invisible="1" />
+                <notebook>
+                    <page string="Travel lines"
+                        attrs="{'invisible': [('details_tab_visible', '=', False)]}"
+                        active="details_tab_visible">
+                        <group>
+                            <group>
+                                <!-- <field name="start_time" /> -->
+                                <field name="start_place" />
+                                <!-- <field name="end_time" /> -->
+                                <field name="end_place" />
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <field
+                            name="tl_detail_ids" class="oe_inline"
+                            context="{'tree_view_ref': 'travel_core.travel_line_details_tree_view', 'form_view_ref': 'travel_core.travel_line_details_form_view','default_travel_type': travel_type, 'default_start_place': start_place, 'default_end_place': end_place, 'default_calculation_method': calculation_method, 'default_start_date': start_date, 'default_end_date': end_date, 'default_adults': adults, 'default_children': children, 'default_product_id': product_id, 'default_product_template_id': product_template_id, 'default_product_uom_qty': product_uom_qty, 'default_product_uom': product_uom, 'default_price_unit': price_unit, 'default_supplier_id': supplier_id, 'default_state': state}"
+                            editable="bottom">
+                        </field>
+                    </page>
+                    <page name="description" string="Description">
+                        <field name="name" invisible="1" />
+                        <field name="description" nolabel="1" colspan="4" />
+                    </page>
+                </notebook>
+                <div groups="base.group_no_one" invisible="1">
+                    <label for="invoice_lines" />
+                    <field name="invoice_lines" />
+                </div>
+            </form>
+            <!-- End Form -->
+        </field>
+    </record>
+
+    <!-- Reservations -->
+    <record id="travel_sale_order_line_search_view" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.search.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Reservations">
+                <!-- Search fields -->
+                <field name="customer_id" string="Customer"
+                    filter_domain="['|', ('customer_id.name', 'ilike', self), ('name', 'ilike', self)]" />
+                <field name="product_id" string="Product"
+                    filter_domain="[('product_id.name', 'ilike', self)]" />
+
+                <!-- Filters -->
+                <filter name="upcoming" string="Upcoming"
+                    domain="[('end_date', '&lt;=', (context_today() + datetime.timedelta(30)).strftime('%%Y-%%m-%%d')), ('end_date', '&gt;=', (context_today() + datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]" />
+                <filter name="now" string="Now"
+                    domain="[('start_date', '&lt;=', (context_today() - datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('end_date', '&gt;=', (context_today() + datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]" />
+                <filter name="next" string="Next"
+                    domain="[('start_date', '&gt;=', (context_today() + datetime.timedelta(1)).strftime('%%Y-%%m-%%d')), ('state', '!=', 'cancel')]" />
+                <separator />
+                <separator />
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]" />
+                <filter name="confirmed" string="Confirmed" domain="[('state','=','sale')]" />
+                <filter name="cancelled" string="Cancelled" domain="[('state','=','cancel')]" />
+                <separator />
+
+                <!-- Group by -->
+                <group expand="0" string="Group By...">
+                    <filter name="customer" string="Customer" domain="[]"
+                        context="{'group_by':'customer_id'}" />
+                    <filter name="supplier" string="Supplier" domain="[]"
+                        context="{'group_by':'supplier_id'}" />
+                    <filter name='travel_type' string="Category" domain="[]"
+                        context="{'group_by':'category_id'}" />
+                    <filter name="category" string="Category" domain="[]"
+                        context="{'group_by':'category_id'}" />
+                    <filter name="product" string="Product" domain="[]"
+                        context="{'group_by':'product_id'}" />
+                    <filter name="sale" string="Sale order" domain="[]"
+                        context="{'group_by':'order_id'}" />
+                    <!-- FIXME: #193 Cannot group by start_date as it is non stored field -->
+                    <!-- <filter name="date" string="Date" domain="[]" context="{'group_by':
+                    'start_date'}"/> -->
+                    <filter name="status" string="Status" domain="[]" context="{'group_by':'state'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="travel_sale_order_line_tree_view" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.tree.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="priority">5</field>
+        <field name="arch" type="xml">
+            <tree class="o_sale_order" sample="1" decoration-danger="state in ['request']"
+                decoration-muted="state in ['cancel']" create="false" delete="false">
+                <field name="order_id" invisible="1" />
+                <field name="travel_type" />
+                <field name="category_id" invisible="1" />
+                <field name="product_id" invisible="1" />
+                <field name="state" />
+                <field name="name" string="Product" />
+                <field name="customer_id" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="adults" />
+                <field name="children" />
+                <field name="price_unit" string="Price" />
+                <field name="supplier_id" />
+                <button name="to_confirm" type="object" string="Confirm" states="draft,cancel"
+                    icon="fa-arrow-right" />
+                <button name="to_cancel" type="object" string="Cancel" states="sale" icon="fa-times" />
+                <button name="print_voucher" type="object" string="Voucher" icon="fa-file-text-o" />
+                <button name="go_to_order" type="object" string="Go to Order" icon="fa-arrow-right" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="travel_sale_order_line_action" model="ir.actions.act_window">
+        <field name="name">All reservations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="travel_sale_order_line_tree_view" />
+        <field name="search_view_id" ref="travel_sale_order_line_search_view" />
+    </record>
+
+    <menuitem id="travel_reservations_menu" name="Reservations" parent="travel_menu_orders"
+        sequence="2" />
+
+    <menuitem id="travel_sale_order_line_menu" action="travel_sale_order_line_action"
+        parent="travel_reservations_menu" sequence="1" />
+
+
+</odoo>

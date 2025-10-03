@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<odoo>
+	<record id="default_context" model="sale.context">
+		<field name="category_id" ref="product.product_category_1"/>
+		<field name="category">Saleable</field>
+		<field name="start_date" eval="(datetime.now()-relativedelta(days=7)).strftime('%Y-%m-%d')"/>
+		<field name="end_date" eval="(datetime.now()+relativedelta(days=7)).strftime('%Y-%m-%d')"/>
+	</record>
+</odoo>

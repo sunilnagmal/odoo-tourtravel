@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="partner_ledger_report" inherit_id="account_reports.partner_ledger_report" model="account.report">
+        <xpath expr="//record[@id='partner_ledger_report_ref']" position="after">
+<!--            <record id="partner_ledger_report_hotel_details" model="account.report.column">-->
+<!--                <field name="name">Details</field>-->
+<!--                <field name="expression_label">details</field>-->
+<!--                <field name="figure_type">none</field>-->
+<!--            </record>-->
+        </xpath>
+    </record>
+</odoo>

@@ -1,0 +1,52 @@
+<odoo>
+    <record id="product_flight_paris_ny" model="product.template">
+        <field name="name">Flight Ticket: Paris to New York</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_flight" />
+        <field name="list_price">650.00</field>
+        <field name="list_price_child">500.00</field>
+        <field name="list_price_infant">250.00</field>
+        <field name="standard_price">550.00</field>
+        <field name="standard_price_child">450.00</field>
+        <field name="standard_price_infant">200.00</field>
+        <field name="default_code">FLIGHT-PARIS-NY</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Direct flight from Paris to New York, economy class.</field>
+        <field name="travel_type">flight</field>
+    </record>
+
+    <record id="product_flight_london_tokyo" model="product.template">
+        <field name="name">Flight Ticket: London to Tokyo</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_flight" />
+        <field name="list_price">950.00</field>
+        <field name="list_price_child">800.00</field>
+        <field name="list_price_infant">500.00</field>
+        <field name="standard_price">850.00</field>
+        <field name="standard_price_child">750.00</field>
+        <field name="standard_price_infant">450.00</field>
+        <field name="default_code">FLIGHT-LONDON-TOKYO</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Non-stop flight from London to Tokyo, business class.</field>
+        <field name="travel_type">flight</field>
+    </record>
+
+    <record id="product_flight_sydney_singapore" model="product.template">
+        <field name="name">Flight Ticket: Sydney to Singapore</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_flight" />
+        <field name="list_price">400.00</field>
+        <field name="list_price_child">380.00</field>
+        <field name="list_price_infant">250.00</field>
+        <field name="standard_price">350.00</field>
+        <field name="standard_price_child">350.00</field>
+        <field name="standard_price_infant">125.00</field>
+        <field name="default_code">FLIGHT-SYDNEY-SINGAPORE</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Economy class flight from Sydney to Singapore.</field>
+        <field name="travel_type">flight</field>
+    </record>
+</odoo>

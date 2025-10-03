@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<odoo>
+    <menuitem id="travel_reservations_flight_menu" action="travel_reservations_flight_action" parent="travel_core.travel_reservations_menu" sequence="2"/>
+</odoo>

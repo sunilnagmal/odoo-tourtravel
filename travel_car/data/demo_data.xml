@@ -1,0 +1,40 @@
+<odoo>
+    <record id="product_car_toyota" model="product.template">
+        <field name="name">Toyota Car Rental</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_car" />
+        <field name="list_price">80.00</field>
+        <field name="default_code">CAR-TOYOTA</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Reliable Toyota car for comfortable travel.</field>
+        <field name="travel_type">car</field>
+
+    </record>
+
+    <record id="product_car_mercedes" model="product.template">
+        <field name="name">Mercedes Car Rental</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_car" />
+        <field name="list_price">150.00</field>
+        <field name="default_code">CAR-MERCEDES</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Luxury Mercedes car for premium travel experiences.</field>
+        <field name="travel_type">car</field>
+
+    </record>
+
+    <record id="product_car_ford" model="product.template">
+        <field name="name">Ford Car Rental</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_car" />
+        <field name="list_price">90.00</field>
+        <field name="default_code">CAR-FORD</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Spacious Ford car suitable for family trips.</field>
+        <field name="travel_type">car</field>
+
+    </record>
+</odoo>
