@@ -20,14 +20,14 @@ class import_transfer(models.TransientModel):
         # obj = self.browse(ids[0])
         for obj in self:
             if obj.file:
-                origin = base64.decodestring(obj.file)
+                origin = base64.b64decode(obj.file)
                 try:
                     data = self.read_from_calc(origin, obj.sheet)
                 except Exception:
                     raise UserError("The file is not valid.")
                 self.load_transfer(obj, data)
                 msg = "The operation was successful."
-                self.write(obj.id, {"result": msg})
+                obj.write({"result": msg})
                 return {
                     "name": "Import Products",
                     "type": "ir.actions.act_window",
@@ -69,7 +69,7 @@ class import_transfer(models.TransientModel):
 
     def get_date(self, value):
         d = BASE_DATE + int(value)
-        return datetime.fromordinal(d)
+        return datetime.date.fromordinal(d)
 
     def find_by_code(self, code, model):
         obj = self.env[model]
@@ -109,8 +109,8 @@ class import_transfer(models.TransientModel):
 
         head = {sheet.cell_value(1, x): x for x in range(sheet.ncols)}
 
-        date_from = sheet.cell_value(0, 0)
-        date_to = sheet.cell_value(0, 1)
+        date_from = self.get_date(sheet.cell_value(0, 0))
+        date_to = self.get_date(sheet.cell_value(0, 1))
 
         for r in range(2, sheet.nrows):
 
@@ -132,15 +132,14 @@ class import_transfer(models.TransientModel):
                 transfer_name = cell("Name").strip()
                 transfer_ids = product_transfer.search([("name", "=", transfer_name)])
                 if len(transfer_ids) == 0:
-                    transfer_id = product_transfer.create(
+                    transfer_obj = product_transfer.create(
                         {"name": transfer_name, "categ_id": transfer_categ_id}
                     )
-                    transfer_obj = product_transfer.browse(transfer_id)
                 elif len(transfer_ids) > 1:
                     msg += "Ambiguous name for transfer: " + transfer_name + "\n"
                     continue
                 else:
-                    transfer_obj = product_transfer.browse(transfer_ids[0])
+                    transfer_obj = transfer_ids[0]
 
             if cell("Supplier"):
                 if transfer_obj:
@@ -165,14 +164,14 @@ class import_transfer(models.TransientModel):
                                     (
                                         "product_tmpl_id",
                                         "=",
-                                        transfer_obj.product_tmpl_id.id,
+                                        transfer_obj.id,
                                     ),
                                 ]
                             )
                             if len(suppinfo_ids) == 0:
                                 svals = {
                                     "name": partner_id,
-                                    "product_tmpl_id": transfer_obj.product_tmpl_id.id,
+                                    "product_tmpl_id": transfer_obj.id,
                                     "min_qty": 0,
                                 }
                                 suppinfo_id = product_supplierinfo.create(svals)
@@ -195,19 +194,19 @@ class import_transfer(models.TransientModel):
                 try:
                     vehicle_type_id = self.get_option_value(
                         cell("Vehicle type"), "vt"
-                    ).upper()
+                    )
                 except Exception:
                     msg += "Wrong vehicle type option in " + transfer_name + "\n"
                     continue
             if cell("Guide"):
                 try:
-                    guide_id = self.get_option_value(cell("Guide"), "guide").upper()
+                    guide_id = self.get_option_value(cell("Guide"), "guide")
                 except Exception:
                     msg += "Wrong guide option in " + transfer_name + "\n"
                     continue
             if cell("Confort"):
                 try:
-                    confort = self.get_option_value(cell("Confort"), "vc").upper()
+                    confort_id = self.get_option_value(cell("Confort"), "vc")
                 except Exception:
                     msg += "Wrong confort option in " + transfer_name + "\n"
                     continue
@@ -221,12 +220,12 @@ class import_transfer(models.TransientModel):
             if (
                 suppinfo_id
                 and transfer_obj
-                and min_paxs
-                and max_paxs
-                and vehicle_type
-                and guide
-                and confort
-                and price
+                and min_paxs is not False
+                and max_paxs is not False
+                and vehicle_type_id
+                and guide_id
+                and confort_id
+                and price is not False
             ):
                 pvals = {
                     "start_date": date_from,
@@ -236,11 +235,11 @@ class import_transfer(models.TransientModel):
                     "suppinfo_id": suppinfo_id,
                     "min_paxs": min_paxs,
                     "max_paxs": max_paxs,
-                    "vehicle_type_id": vehicle_type,
-                    "guide_id": guide,
+                    "vehicle_type_id": vehicle_type_id,
+                    "guide_id": guide_id,
                     "confort_id": confort_id,
                 }
-            pricelist_partnerinfo.create(pvals)
+                pricelist_partnerinfo.create(pvals)
         return True
 
     def prepare_load(self):

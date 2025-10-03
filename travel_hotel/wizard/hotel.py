@@ -22,7 +22,7 @@ class import_hotel(models.TransientModel):
         # obj = self.browse(ids[0])
         for obj in self:
             if obj.file:
-                data = base64.decodestring(obj.file)
+                data = base64.b64decode(obj.file)
                 msg = " "
                 document = xlrd.open_workbook(file_contents=data)
 
@@ -34,7 +34,7 @@ class import_hotel(models.TransientModel):
                         else:
                             msg += new_msg
 
-                self.write(obj.id, {"result": msg})
+                obj.write({"result": msg})
                 return {
                     "name": "Import Prices",
                     "type": "ir.actions.act_window",
@@ -246,9 +246,9 @@ class import_hotel(models.TransientModel):
     def get_date(self, value):
         try:
             d = BASE_DATE + int(value)
-            return datetime.fromordinal(d)
+            return datetime.date.fromordinal(d)
         except Exception:
-            return datetime(2017, 1, 1)
+            return datetime.date(2017, 1, 1)
 
     def get_float(self, value):
         try:

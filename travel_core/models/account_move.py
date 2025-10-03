@@ -91,8 +91,7 @@ class AccountMove(models.Model):
                 continue
 
             order_line = sale_lines[0]  # Take first related sale line
-            # supplier = sale_context.get_supplier(order_line) #FIXME Context no longer exists
-
+            supplier = getattr(order_line, "supplier_id", False)
             if not supplier:
                 continue
 
@@ -133,31 +132,31 @@ class AccountMove(models.Model):
             lines_by_supplier = invoice.group_by_supplier()
             for supplier, lines in list(lines_by_supplier.items()):
                 if supplier is not None:
-                    for sale_line in lines[0]["sale_line"]:
-                        currency_id = sale_line.currency_cost_id
-                        data = vals.copy()
-                        data.update(
-                            {
-                                "partner_id": supplier.id,
-                                # 'account_id': supplier.property_account_payable.id,
-                                "currency_id": currency_id.id,
-                                "invoice_line_ids": [],
-                            }
-                        )
-                        for line in lines:
-                            sl = line["sale_line"]
-                            invoice_line = line["invoice_line"]
-                            cost_price = self.get_cost_price(sl, currency_id)
-                            line_vals = {
-                                "name": invoice_line.product_id.name,
-                                "ref": invoice_line.move_id.name,
-                                "product_id": invoice_line.product_id.id,
-                                # 'account_id': invoice_line.product_id.categ_id.property_account_expense_categ.id,
-                                "quantity": invoice_line.quantity,
-                                "discount": invoice_line.discount,
-                                "price_unit": cost_price,
-                            }
-                            data["invoice_line_ids"].append((0, 0, line_vals))
+                    reference_sale_line = lines[0]["sale_line"]
+                    currency_id = reference_sale_line.currency_cost_id
+                    data = vals.copy()
+                    data.update(
+                        {
+                            "partner_id": supplier.id,
+                            # 'account_id': supplier.property_account_payable.id,
+                            "currency_id": currency_id.id,
+                            "invoice_line_ids": [],
+                        }
+                    )
+                    for line_info in lines:
+                        sl = line_info["sale_line"]
+                        invoice_line = line_info["invoice_line"]
+                        cost_price = self.get_cost_price(sl, currency_id)
+                        line_vals = {
+                            "name": invoice_line.product_id.name,
+                            "ref": invoice_line.move_id.name,
+                            "product_id": invoice_line.product_id.id,
+                            # 'account_id': invoice_line.product_id.categ_id.property_account_expense_categ.id,
+                            "quantity": invoice_line.quantity,
+                            "discount": invoice_line.discount,
+                            "price_unit": cost_price,
+                        }
+                        data["invoice_line_ids"].append((0, 0, line_vals))
                         new_inv_id = self.create(data)
                         new_inv_id.action_post()
 

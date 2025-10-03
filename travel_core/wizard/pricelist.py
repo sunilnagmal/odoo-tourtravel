@@ -38,9 +38,9 @@ class customer_price(models.TransientModel):
                 ws = wb.add_sheet(name, cell_overwrite_ok=True)
                 self.write_prices(ws, fields, categ, pricelist)
         wb.save("/tmp/prices.xls")
-        f = open("/tmp/prices.xls", "r")
+        f = open("/tmp/prices.xls", "rb")
         obj = self.browse(ids[0])
-        self.write(obj.id, {"file_price": base64.encodestring(f.read())})
+        obj.write({"file_price": base64.b64encode(f.read())})
         return {
             "name": "Export Prices",
             "type": "ir.actions.act_window",

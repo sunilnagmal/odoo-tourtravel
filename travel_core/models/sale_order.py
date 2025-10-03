@@ -12,41 +12,21 @@ class sale_order(models.Model):
     _inherit = "sale.order"
 
     def _get_lead_name(self):
-        result = {}
-
-        for obj in self:
-            result[obj.id] = False
-            if obj.pax_ids:
-                min = obj.pax_ids[0]
-                for pax in obj.pax_ids:
-                    if pax.id < min.id:
-                        min = pax
-                result[obj.id] = min.name
-
-        return result
-
-    def _lead_name_search(self):
-        # name = args[0][2]
-        values = []
-        # ids = self.search([])
-        for obj in self:
-            if obj.pax_ids and name.lower() in obj.pax_ids[0].name.lower():
-                values.append(obj.id)
-            result = [("id", "in", values)]
-            obj.lead_name = result
+        # Set the lead name to the first pax's name (by id) if available
+        for order in self:
+            lead_name = ""
+            if order.pax_ids:
+                first_pax = order.pax_ids.sorted(key=lambda p: p.id)[0]
+                lead_name = first_pax.name or ""
+            order.lead_name = lead_name
 
     def _get_total_paxs(self):
-        result = {}
-        uids = [res[0] for res in self.env.cr.fetchall()]
-        # for obj in self.browse(self.env.context['active_ids']):
-        for obj in self.browse(uids):
-            result[obj.id] = False
-            result[obj.id] = len(obj.pax_ids)
-            obj.total_paxs = result
+        # Compute the number of paxs per order efficiently
+        for order in self:
+            order.total_paxs = len(order.pax_ids)
 
     state = fields.Selection(
         selection_add=[
-            ("draft",),
             ("request", "Request"),
             ("requested", "Requested"),
         ],
@@ -59,7 +39,7 @@ class sale_order(models.Model):
         readonly=True,
         index=True,
         states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
-        default=dt.date.today(),
+        default=lambda self: fields.Date.context_today(self),
     )
     end_date = fields.Date(
         "End Date",
@@ -67,7 +47,7 @@ class sale_order(models.Model):
         readonly=True,
         index=True,
         states={"draft": [("readonly", False)], "sent": [("readonly", False)]},
-        default=dt.date.today() + dt.timedelta(days=1),
+        default=lambda self: fields.Date.context_today(self) + dt.timedelta(days=1),
     )
 
     flight_in = fields.Many2one("travel_core.flight", string="Flight in")
@@ -104,7 +84,10 @@ class sale_order(models.Model):
 
     def write(self, vals):
         res = super(sale_order, self).write(vals)
-        res.check_dates()
+        self.check_dates()
+        if vals.get("state") in ["sale", "done", "cancel"]:
+            for order in self:
+                order.order_line.write({"state": vals["state"]})
         return res
 
     traveler_name = fields.Char(
@@ -139,13 +122,7 @@ class sale_order(models.Model):
 
     _order = "create_date desc"
 
-    def write(self, vals):
-        res = super(sale_order, self).write(vals)
-        if vals.get("state") in ["sale", "done", "cancel"]:
-            for s in self:
-                for line in s.order_line:
-                    line.write({"state": vals["state"]})
-        return res
+    
 
     def to_confirm(self):
         for order in self:
