@@ -4,7 +4,7 @@ import base64
 import datetime
 import timeit
 
-from odoo import _, api, fields, models, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError, UserError
 
 
@@ -21,7 +21,7 @@ class import_allotment(models.TransientModel):
     def import_file(self):
         for obj in self:
             if obj.file:
-                data = base64.decodestring(obj.file)
+                data = base64.b64decode(obj.file)
 
                 msg = ""
                 document = xlrd.open_workbook(file_contents=data)
@@ -141,7 +141,7 @@ class import_allotment(models.TransientModel):
 
                 msg += "Press cancel to close"
 
-                self.write(obj.id, {"result": msg})
+                obj.write({"result": msg})
                 return {
                     "name": "Import Allotment",
                     "type": "ir.actions.act_window",

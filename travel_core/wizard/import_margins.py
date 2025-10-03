@@ -20,7 +20,7 @@ class import_margins(models.TransientModel):
         # obj = self.browse(ids[0])
         for obj in self:
             if obj.file:
-                data = base64.decodestring(obj.file)
+                data = base64.b64decode(obj.file)
                 # try:
                 msg = ""
                 document = xlrd.open_workbook(file_contents=data)
@@ -49,7 +49,7 @@ class import_margins(models.TransientModel):
                     customer_name = sheet.cell_value(1, col).upper()
                     customer_ids = customer.search([("name", "=", customer_name)])
                     if customer_ids:
-                        customer_obj = customer.browse(customer_ids)[0]
+                        customer_obj = customer_ids[0]
                     else:
                         if first_col == col:
                             msg += (
@@ -72,13 +72,14 @@ class import_margins(models.TransientModel):
                     pricelist_id = customer_obj.property_product_pricelist.id
                     pricelist_name = customer_obj.property_product_pricelist.name
                     if pricelist_name == "Public Pricelist":
-                        pricelist_id = pricelist.create(
+                        pricelist_rec = pricelist.create(
                             {
                                 "name": customer_name + " Pricelist",
-                                "currency_id": curr_id,
+                                "currency_id": curr_id.id,
                                 "type": "sale",
                             }
                         )
+                        pricelist_id = pricelist_rec.id
 
                     customer_obj.write({"property_product_pricelist": pricelist_id})
 
@@ -110,7 +111,7 @@ class import_margins(models.TransientModel):
                                     [("product_id", "=", product_ids[0])]
                                 )
                                 if rule_ids:
-                                    rule.write(rule_ids, {"margin_per_pax": margin})
+                                    rule_ids.write({"margin_per_pax": margin})
                                 else:
                                     rule.create(
                                         {
@@ -127,7 +128,7 @@ class import_margins(models.TransientModel):
 
                 msg += "Press cancel to close"
 
-                self.write(obj.id, {"result": msg})
+                obj.write({"result": msg})
                 return {
                     "name": "Import Margins",
                     "type": "ir.actions.act_window",
@@ -143,9 +144,9 @@ class import_margins(models.TransientModel):
     def get_date(self, value):
         try:
             d = BASE_DATE + int(value)
-            return datetime.fromordinal(d)
+            return datetime.date.fromordinal(d)
         except Exception:
-            return datetime(2017, 1, 1)
+            return datetime.date(2017, 1, 1)
 
     def get_float(self, value):
         try:
