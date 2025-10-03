@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- TODO #271
+    <record id="travel_line_details_tree_view_inherit" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.tree.view.inherit.transfer</field>
+        <field name="model">travel.line.details</field>
+        <field name="inherit_id" ref="travel_core.travel_line_details_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="transfer_visible" invisible="0"/>
+                <field name="vehicle_type_id" string="Vehicle Type" invisible="transfer_visible"/>
+                <field name="vehicle_confort_id" string="Vehicle Confort" invisible="transfer_visible"/>
+                <field name="vehicle_guide_id" string="Vehicle Guide" invisible="transfer_visible"/>
+            </field>
+        </field>
+    </record> -->
+
+    <record id="travel_line_details_form_view" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.transfer.form.view</field>
+        <field name="model">travel.line.details</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="travel_core.travel_line_details_form_view" />
+        <field name="arch" type="xml">
+            <group name="product_attributes" position="inside">
+                <label for="vehicle_type_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'transfer')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'transfer')]}">
+                    <field name="vehicle_type_id" />
+                </div>
+                <label for="vehicle_confort_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'transfer')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'transfer')]}">
+                    <field name="vehicle_confort_id" />
+                </div>
+                <label for="vehicle_guide_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'transfer')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'transfer')]}">
+                    <field name="vehicle_guide_id" />
+                </div>
+            </group>
+        </field>
+    </record>
+</odoo>

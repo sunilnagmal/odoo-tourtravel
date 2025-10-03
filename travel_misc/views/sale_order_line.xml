@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+	<record id="travel_sale_order_line_misc_search_view" model="ir.ui.view">
+		<field name="name">travel.sale.order.line.misc.search.view</field>
+		<field name="model">sale.order.line</field>
+		<field name="inherit_id" ref="travel_core.travel_sale_order_line_search_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//separator" position="after">
+				<filter name='misc' icon="fa-check" string="Misc" domain="[('category_id.name','=','Misc')]"/>
+			</xpath>
+		</field>
+	</record>
+
+    <record id="travel_reservations_misc_action" model="ir.actions.act_window">
+        <field name="name">Miscs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="travel_core.travel_sale_order_line_tree_view"/>
+        <field name="search_view_id" ref="travel_core.travel_sale_order_line_search_view"/>
+        <field name="domain">[('travel_type', '=', 'misc')]</field>
+    </record>
+
+    <menuitem id="travel_reservations_misc_menu" action="travel_reservations_misc_action" parent="travel_core.travel_reservations_menu" sequence="2"/>
+</odoo>

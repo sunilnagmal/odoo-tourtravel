@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="travel_line_details_form_view" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.visa.form.view</field>
+        <field name="model">travel.line.details</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="travel_core.travel_line_details_form_view" />
+        <field name="arch" type="xml">
+            <group name="product_attributes" position="inside">
+                <label for="visa_type_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'visa')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'visa')]}">
+                    <field name="visa_type_id" />
+                </div>
+                <label for="number_of_entries_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'visa')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'visa')]}">
+                    <field name="number_of_entries_id" />
+                </div>
+                <label for="visa_validity"
+                    attrs="{'invisible': [('travel_type', '!=', 'visa')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'visa')]}">
+                    <field name="visa_validity" class="oe_inline" />
+                    <field name="visa_validity_unit" class="oe_inline" />
+                </div>
+            </group>
+        </field>
+    </record>
+</odoo>

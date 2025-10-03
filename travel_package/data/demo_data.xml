@@ -1,0 +1,41 @@
+<odoo>
+    <record id="product_travel_package_paris" model="product.template">
+        <field name="name">Paris City Tour Package</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_package" />
+        <field name="list_price">1200.00</field>
+        <field name="list_price_child">800.00</field>
+        <field name="default_code">PKG-PARIS</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">5-day guided tour in Paris including hotel and sightseeing.</field>
+        <field name="travel_type">package</field>
+    </record>
+
+    <record id="product_travel_package_maldives" model="product.template">
+        <field name="name">Maldives Beach Escape</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_package" />
+        <field name="list_price">2500.00</field>
+        <field name="list_price_child">2000.00</field>
+        <field name="default_code">PKG-MALDIVES</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">7-night luxury resort stay with water activities in Maldives.</field>
+        <field name="travel_type">package</field>
+    </record>
+
+    <record id="product_travel_package_tokyo" model="product.template">
+        <field name="name">Tokyo Adventure Package</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_package" />
+        <field name="list_price">1800.00</field>
+        <field name="list_price_child">1500.00</field>
+        <field name="default_code">PKG-TOKYO</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">6-day Tokyo adventure with city tours and cultural
+            experiences.</field>
+        <field name="travel_type">package</field>
+    </record>
+</odoo>

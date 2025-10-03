@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="product_attribute_visa_type" model="product.attribute">
+        <field name="name">Visa Type</field>
+    </record>
+    <record id="visa_type_tourist" model="product.attribute.value">
+        <field name="attribute_id" ref="product_attribute_visa_type"/>
+        <field name="name">Tourist</field>
+    </record>
+    <record id="attribute_value_visa_business" model="product.attribute.value">
+        <field name="name">Business</field>
+        <field name="attribute_id" ref="product_attribute_visa_type"/>
+    </record>
+    <record id="attribute_value_visa_student" model="product.attribute.value">
+        <field name="name">Student</field>
+        <field name="attribute_id" ref="product_attribute_visa_type"/>
+    </record>
+    <record id="attribute_value_visa_work" model="product.attribute.value">
+        <field name="name">Work</field>
+        <field name="attribute_id" ref="product_attribute_visa_type"/>
+    </record>
+    <record id="attribute_value_visa_transit" model="product.attribute.value">
+        <field name="name">Transit</field>
+        <field name="attribute_id" ref="product_attribute_visa_type"/>
+    </record>
+    <record id="attribute_value_visa_other" model="product.attribute.value">
+        <field name="name">Other</field>
+        <field name="attribute_id" ref="product_attribute_visa_type"/>
+    </record>
+
+    <!-- Option Type for Number of Entries -->
+    <record id="product_attribute_visa_entry_number" model="product.attribute">
+        <field name="name">Visa number of entries</field>
+    </record>
+
+    <!-- Option Values for Number of Entries -->
+    <record id="attribute_value_entry_single" model="product.attribute.value">
+        <field name="name">Single</field>
+        <field name="attribute_id" ref="product_attribute_visa_entry_number"/>
+    </record>
+    <record id="attribute_value_entry_multiple" model="product.attribute.value">
+        <field name="name">Multiple</field>
+        <field name="attribute_id" ref="product_attribute_visa_entry_number"/>
+    </record>
+</odoo>

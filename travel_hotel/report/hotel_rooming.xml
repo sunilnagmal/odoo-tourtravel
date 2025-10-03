@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="paperformat_rooming_report" model="report.paperformat">
+    <field name="name">Landscape Paperformat for the Rooming report</field>
+    <field name="default" eval="False" />
+    <field name="disable_shrinking" eval="True" />
+    <field name="format">A4</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <!-- this one is to make the pdf to become horizontal, if landscape=False, pdf will become
+    vertical -->
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">40</field>
+    <field name="margin_bottom">16</field>
+    <field name="margin_left">7</field>
+    <field name="margin_right">7</field>
+    <field name="header_spacing">35</field>
+    <field name="dpi">96</field>
+  </record>
+
+  <record id="action_travel_rooming_report" model="ir.actions.report">
+    <field name="name">Rooming</field>
+    <field name="model">sale.order</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">travel_hotel.travel_rooming_report</field>
+    <field name="report_file">travel_rooming_report</field>
+    <field name="print_report_name">('Rooming - %s' % (object.name))</field>
+    <field name="binding_model_id" ref="sale.model_sale_order" />
+    <field name="binding_type">report</field>
+    <field name="paperformat_id" ref="paperformat_rooming_report" />
+  </record>
+
+
+  <template id="travel_rooming_report_document">
+    <t t-call="web.external_layout">
+      <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+      <div class="page">
+        <div class="oe_structure" id="oe_structure_hotel_rooming_document" />
+
+        <div class="row" id="title">
+          <span style="color: red">
+            <strong>
+              <center>Rooming List</center>
+            </strong>
+          </span>
+        </div>
+        <div class="row" id="informations1">
+          <div class="col-6">
+            <span>Client:</span>
+            <span t-field="doc.partner_id.name" />
+          </div>
+          <div class="col-6">
+            <span>Hotel:</span>
+            <span t-esc="doc._get_hotel_name()" />
+          </div>
+        </div>
+        <div class="row" id="informations2">
+          <div class="col-6">
+            <span>Check-in:</span>
+            <span t-field="doc.start_date" t-options='{"widget": "date","format": "MM/dd/yyyy"}' />
+          </div>
+          <div class="col-6">
+            <span>Check-out:</span>
+            <span t-esc="doc.end_date" t-options='{"widget": "date","format": "MM/dd/yyyy"}' />
+          </div>
+        </div>
+        <br />
+        <br />
+        <div class="row" id="reservation_details">
+          <table class="table table-sm o_main_table">
+            <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+            <thead style="display: table-row-group">
+              <tr>
+                <th name="th_serial" class="text-left">Serial</th>
+                <th name="th_traveler_name" class="text-right">Guest Name</th>
+                <th name="th_room_type" class="text-right">Room Type</th>
+                <th name="th_view" class="text-right">View</th>
+                <th name="th_meal_plan" class="text-right">Meal Plan</th>
+                <!-- <th name="th_rooms" class="text-right">Rooms</th>-->
+                <th name="th_room_no" class="text-right">Reservation number</th>
+                <th name="th_notes" style="width: 30%" class="text-right">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="sale_tbody">
+              <t t-set="line_serial" t-value="0" />
+              <t t-foreach="doc.pax_ids" t-as="pax">
+                <t t-set="line_serial" t-value="line_serial+1" />
+                <tr>
+                  <td name="td_serial">
+                    <span t-esc="line_serial" />
+                  </td>
+                  <td name="td_traveler_name">
+                    <span t-field="pax.name" />
+                  </td>
+                  <td name="td_room_type">
+                    <span t-esc="pax.order_line_id._get_room_type()" />
+                  </td>
+                  <td name="td_room_view">
+                    <span t-esc="pax.order_line_id._get_room_view()" />
+                  </td>
+                  <td name="td_meal_plan">
+                    <span t-esc="pax.order_line_id._get_meal_option()" />
+                  </td>
+                  <td name="td_confirmation_number">
+                    <span t-field="pax.reservation_number" />
+                  </td>
+                  <td name="td_note" style="width: 30%" />
+                </tr>
+              </t>
+            </tbody>
+          </table>
+
+        </div>
+        <br />
+      </div>
+    </t>
+  </template>
+
+
+  <template id="travel_rooming_report">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="travel_hotel.travel_rooming_report_document" t-lang="doc.partner_id.lang" />
+      </t>
+    </t>
+  </template>
+</odoo>

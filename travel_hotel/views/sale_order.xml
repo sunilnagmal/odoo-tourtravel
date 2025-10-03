@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<odoo>
+	<!-- Inherit Form view -->
+	<record id="travel_sale_order_form_view_hotel_inherit" model="ir.ui.view">
+		<field name="name">sale.order.form</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="travel_core.travel_sale_order_form_view"/>
+		<field name="arch" type="xml">
+			<field name="children" position="after">
+				<field name="number_of_rooms"/>
+			</field>
+
+		</field>
+	</record>
+
+	<record id="view_order_tree_inherit_hotel" model="ir.ui.view">
+		<field name="name">sale.order.tree</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="travel_core.view_order_tree_inherit"/>
+		<field name="arch" type="xml">
+			<field name="end_date" position="after">
+				<field name="total_rooms"/>
+			</field>
+			<field name="reservation_number" position="after">
+				<field name="hotel_name"/>
+			</field>
+
+		</field>
+	</record>
+	<!-- Inherit Form view -->
+	<record id="view_quotation_tree_inherit" model="ir.ui.view">
+		<field name="name">sale.order.tree</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="travel_core.view_quotation_tree_inherit"/>
+		<field name="arch" type="xml">
+			<field name="reservation_number" position="after">
+				<field name="hotel_name"/>
+			</field>
+			<field name="end_date" position="after">
+				<field name="total_rooms"/>
+			</field>
+			<field name="amount_total" position="after">
+				<field name="supplier_id"/>
+			</field>
+			<field name="user_id" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			<field name="company_id" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+		</field>
+	</record>
+</odoo>

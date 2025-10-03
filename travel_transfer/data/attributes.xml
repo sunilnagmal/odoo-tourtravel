@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<odoo>
+	<!-- Transfers -->
+	<record id="vehicle_type" model="product.attribute">
+		<field name="name">Vehicle Type</field>
+	</record>
+	<record id="vehicle_type_taxi" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_type"/>
+		<field name="name">TAXI</field>
+	</record>
+	<record id="vehicle_type_micro" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_type"/>
+		<field name="name">MICROBUS</field>
+	</record>
+	<record id="vehicle_type_mini" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_type"/>
+		<field name="name">MINIBUS</field>
+	</record>
+	<record id="vehicle_type_omni" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_type"/>
+		<field name="name">OMNIBUS</field>
+	</record>
+
+	<record id="vehicle_confort" model="product.attribute">
+		<field name="name">Vehicle Confort</field>
+	</record>
+	<record id="vehicle_confort_standard" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_confort"/>
+		<field name="name">STANDARD</field>
+	</record>
+	<record id="vehicle_confort_luxury" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_confort"/>
+		<field name="name">LUXURY</field>
+	</record>
+
+	<record id="vehicle_guide" model="product.attribute">
+		<field name="name">Vehicle Guide</field>
+	</record>
+	<record id="vehicle_value_guide" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_guide"/>
+		<field name="name">GUIDE</field>
+	</record>
+	<record id="vehicle_value_no_guide" model="product.attribute.value">
+		<field name="attribute_id" ref="vehicle_guide"/>
+		<field name="name">NO GUIDE</field>
+	</record>
+</odoo>

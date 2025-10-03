@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<odoo>
+	<!-- Inherit Form view -->
+	<record id="travel_sale_order_line_form_view_hotel_inherit" model="ir.ui.view">
+		<field name="name">travel.sale.order.line.form.view.inherit</field>
+		<field name="model">sale.order.line</field>
+		<field name="inherit_id" ref="travel_core.travel_sale_order_line_form_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//label[@for='product_uom_qty']" position="before">
+				<label for="nights" attrs="{'invisible': [('travel_type', '!=', 'hotel')]}" />
+				<div attrs="{'invisible': [('travel_type', '!=', 'hotel')]}">
+					<field name="nights" class="oe_inline" />
+				</div>
+				<label for="number_of_rooms" attrs="{'invisible': [('travel_type', '!=', 'hotel')]}" />
+				<div attrs="{'invisible': [('travel_type', '!=', 'hotel')]}">
+					<field name="number_of_rooms" class="oe_inline" />
+				</div>
+			</xpath>
+
+		</field>
+	</record>
+
+	<record id="travel_sale_order_line_hotel_search_view" model="ir.ui.view">
+		<field name="name">travel.sale.order.line.hotel.search.view</field>
+		<field name="model">sale.order.line</field>
+		<field name="inherit_id" ref="travel_core.travel_sale_order_line_search_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//separator" position="after">
+				<filter name="hotel" icon="fa-check" string="Hotel"
+					domain="[('category_id.name','=','Hotel')]" />
+			</xpath>
+		</field>
+	</record>
+
+	<record id="view_order_line_tree_hotel_inherit" model="ir.ui.view">
+		<field name="name">sale.order.line.tree.hotel.inherit</field>
+		<field name="model">sale.order.line</field>
+		<field name="inherit_id" ref="travel_core.travel_sale_order_line_tree_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='children']" position="after">
+				<field name="number_of_rooms" />
+				<field name="nights" />
+			</xpath>
+		</field>
+	</record>
+
+	<record id="travel_reservations_hotel_action" model="ir.actions.act_window">
+		<field name="name">Hotels</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">sale.order.line</field>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="travel_core.travel_sale_order_line_tree_view" />
+		<field name="search_view_id" ref="travel_core.travel_sale_order_line_search_view" />
+		<field name="domain">[('travel_type', '=', 'hotel')]</field>
+	</record>
+
+	<menuitem id="travel_reservations_hotel_menu" action="travel_reservations_hotel_action"
+		parent="travel_core.travel_reservations_menu" sequence="2" />
+
+</odoo>

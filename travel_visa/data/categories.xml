@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+	<record id="product_category_visa" model="product.category">
+		<field name="name">Visa</field>
+		<field name="model_name">visa</field>
+		<field name="parent_id" ref="product.product_category_all" />
+	</record>
+
+
+</odoo>

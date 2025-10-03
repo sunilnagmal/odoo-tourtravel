@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="travel_confirmation_report_document">
+    <t t-call="web.external_layout">
+      <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+      <div class="page">
+        <div class="oe_structure" id="oe_structure_hotel_confirmation_document" />
+
+        <t t-if="doc.state == 'draft'">
+          <div class="watermark"
+            style="position:absolute;opacity:0.4;font-size:5em;height:100%width:100%;text-align:center;z-index:1000;right:350px;top:400px;border:0;-webkit-transform:rotate(45deg);">
+            Tentative confirmation
+          </div>
+        </t>
+
+        <div class="row" id="informations1">
+          <div class="col-6">
+            <span>To:</span>
+            <span t-field="doc.partner_id.name" />
+          </div>
+          <div class="col-6">
+            <span>Date:</span>
+            <span t-field="doc.date_order" />
+          </div>
+        </div>
+        <div class="row" id="informations2">
+          <div class="col-6">
+            <span>Ref:</span>
+            <span t-field="doc.name" />
+          </div>
+          <div class="col-6">
+            <span>Guest name:</span>
+            <span t-esc="doc.traveler_name" />
+          </div>
+        </div>
+        <div class="row" id="informations2">
+          <div class="col-6">
+            <span>Option Date:</span>
+            <span t-field="doc.validity_date" />
+          </div>
+          <div class="col-6">
+            <span>Hotel conf no.:</span>
+            <span t-field="doc.reservation_number" />
+          </div>
+        </div>
+        <br />
+        <br />
+        <div class="row" id="greetings">
+          <div class="col-12">
+            <strong>Dear </strong><strong t-esc="doc.traveler_name" />,<br /><br />
+            <span>We seize
+            this opportunity to thank you very much for you kind interest and confidence in</span>
+            <strong
+              t-field="doc.company_id.name" />
+            <span> with reference to the above-mentioned subject,
+            we are delighted.</span>
+          </div>
+        </div>
+        <br />
+        <div class="row" id="reservation_details">
+          <table class="table table-sm o_main_table">
+            <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+            <thead style="display: table-row-group">
+              <tr>
+                <th name="th_hotel_name" class="text-left">Hotel Name</th>
+                <th name="th_room_type" class="text-right">Room Type</th>
+                <th name="th_view" class="text-right">View</th>
+                <th name="th_total_room" class="text-right">Total Room</th>
+                <th name="th_check_in" class="text-right">Check In</th>
+                <th name="th_check_out" class="text-right">Check Out</th>
+                <th name="th_check_night" class="text-right">Night</th>
+                <th name="th_check_meal" class="text-right">Meal</th>
+              </tr>
+            </thead>
+            <tbody class="sale_tbody">
+              <t t-foreach="doc.order_line" t-as="line">
+                <tr>
+                  <td name="td_hotel_name">
+                    <span t-field="line.product_id.name" />
+                  </td>
+                  <td name="td_room_type">
+                    <span t-esc="line._get_room_type()" />
+                  </td>
+                  <td name="td_view">
+                    <span t-esc="line._get_room_view()" />
+                  </td>
+                  <td name="td_number_rooms">
+                    <span t-esc="line.number_of_rooms" />
+                  </td>
+                  <td name="td_check_in">
+                    <span t-field="line.start_date" />
+                  </td>
+                  <td name="td_check_out">
+                    <span t-field="line.end_date" />
+                  </td>
+                  <td name="td_nights">
+                    <span t-field="line.nights" />
+                  </td>
+                  <td name="td_meal">
+                    <span t-esc="line._get_meal_option()" />
+                  </td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+
+        </div>
+        <br />
+        <div class="row" id="remarks">
+          <div class="col-12">
+            <strong>Terms and conditions</strong>
+            <p>
+              <span t-field="doc.note" />
+            </p>
+          </div>
+        </div>
+        <div class="row" id="bank_details">
+          <div class="col-12">
+            <center>
+              <strong>Bank details</strong>
+            </center>
+          </div>
+        </div>
+        <div class="row" id="bank_details2">
+          <div class="col-6">
+            <u>
+              <strong>India</strong>
+            </u>
+            <p>Account Name: BALAIYA TOURS AND TRAVEL<br /> Bank Name: HDFC Bank - Mumbai<br />
+              Branch: Mindspace<br /> Account No.: 50200031808080<br /> IFSC Code: HDFC0000411<br />
+              SWIFT code: HDFCINBB</p>
+          </div>
+          <div class="col-6">
+            <u>
+              <strong>Uk</strong>
+            </u>
+            <p>Account Name: Holiday Planners Ltd<br /> Bank Name: Starling Bank<br /> Account No.:
+              42613809<br /> Sort Code: 608371</p>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+
+  <template id="travel_confirmation_report">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="travel_hotel.travel_confirmation_report_document" t-lang="doc.partner_id.lang" />
+      </t>
+    </t>
+  </template>
+
+  <record id="action_travel_confirmation_report" model="ir.actions.report">
+    <field name="name">Confirmation</field>
+    <field name="model">sale.order</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">travel_hotel.travel_confirmation_report</field>
+    <field name="report_file">travel_confirmation_report</field>
+    <field name="print_report_name">(object.state in ('draft', 'sent') and 'Tentative Confirmation -
+      %s' % (object.name)) or 'Definite Confirmation - %s' % (object.name)</field>
+    <field name="binding_model_id" ref="sale.model_sale_order" />
+    <field name="binding_type">report</field>
+  </record>
+
+
+</odoo>

@@ -1,0 +1,38 @@
+<odoo>
+    <record id="product_visa_france" model="product.template">
+        <field name="name">France Visa Application</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_visa" />
+        <field name="list_price">120.00</field>
+        <field name="default_code">VISA-FRANCE</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Visa processing service for visiting France.</field>
+        <field name="travel_type">visa</field>
+    </record>
+
+    <record id="product_visa_sa" model="product.template">
+        <field name="name">South Africa Visa Application</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_visa" />
+        <field name="list_price">200.00</field>
+        <field name="default_code">VISA-SA</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Visa processing service for visiting South Africa.</field>
+        <field name="travel_type">visa</field>
+    </record>
+
+    <record id="product_visa_usq" model="product.template">
+        <field name="name">United States Visa Application</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_visa" />
+        <field name="list_price">150.00</field>
+        <field name="default_code">VISA-USA</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Visa processing service for visiting United States of
+            America.</field>
+        <field name="travel_type">visa</field>
+    </record>
+</odoo>

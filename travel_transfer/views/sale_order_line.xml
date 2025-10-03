@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="travel_sale_order_line_form_view_inherit" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.form.view.inherit</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="travel_core.travel_sale_order_line_form_view" />
+        <field name="arch" type="xml">
+            <group name="paxs_fields" position="after">
+                <group name="transfer_details" string="Transfer Details"
+                    attrs="{'invisible': [('travel_type', '!=', 'transfer')]}" colspan="4">
+                    <field name="vehicle_type_id" context="{'show_attribute': False}" />
+                    <field name="vehicle_confort_id" context="{'show_attribute': False}" />
+                    <field name="vehicle_guide_id" context="{'show_attribute': False}" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="travel_sale_order_line_transfer_search_view" model="ir.ui.view">
+        <field name="name">travel.sale.order.line.tranfer.search.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="travel_core.travel_sale_order_line_search_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//separator" position="after">
+                <filter name="transfer" icon="fa-check" string="Transfer"
+                    domain="[('category_id.name','=','Transfer')]" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="travel_reservations_transfer_action" model="ir.actions.act_window">
+        <field name="name">Transfers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="travel_core.travel_sale_order_line_tree_view" />
+        <field name="search_view_id" ref="travel_core.travel_sale_order_line_search_view" />
+        <field name="domain">[('travel_type', '=', 'transfer')]</field>
+    </record>
+
+    <menuitem id="travel_reservations_transfer_menu" action="travel_reservations_transfer_action"
+        parent="travel_core.travel_reservations_menu" sequence="2" />
+
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<odoo>
+	<record id="product_category_transfer" model="product.category">
+		<field name="name">Transfer</field>
+		<field name="parent_id" ref="product.product_category_all"/>
+		<field name="voucher_name">transfer_travel_voucher_report</field>
+	</record>
+</odoo>

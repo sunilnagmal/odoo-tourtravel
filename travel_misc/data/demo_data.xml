@@ -1,0 +1,37 @@
+<odoo>
+    <record id="product_travel_insurance_basic" model="product.template">
+        <field name="name">Basic Travel Insurance</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_misc" />
+        <field name="list_price">25.00</field>
+        <field name="default_code">INS-BASIC</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Essential coverage for your travel needs.</field>
+        <field name="travel_type">misc</field>
+    </record>
+
+    <record id="product_travel_wifi_rental" model="product.template">
+        <field name="name">Portable WiFi Rental</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_misc" />
+        <field name="list_price">15.00</field>
+        <field name="default_code">WIFI-RENTAL</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Stay connected anywhere with portable WiFi.</field>
+        <field name="travel_type">misc</field>
+    </record>
+
+    <record id="product_travel_luggage_storage" model="product.template">
+        <field name="name">Luggage Storage Service</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_misc" />
+        <field name="list_price">10.00</field>
+        <field name="default_code">LUGGAGE-STORAGE</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+        <field name="description_sale">Secure storage for your luggage during travel.</field>
+        <field name="travel_type">misc</field>
+    </record>
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_warehouse_portal,stock.warehouse,stock.model_stock_warehouse,base.group_portal,1,0,0,0
+access_account_fiscal_position_portal,account.fiscal.position,account.model_account_fiscal_position,base.group_portal,1,0,0,0
+access_product_template_portal,product.template.portal,product.model_product_template,base.group_portal,1,0,0,0
+access_product_product_portal,product.product.portal,product.model_product_product,base.group_portal,1,0,0,0
+access_uom_uom_portal,uom.uom.portal,product.model_uom_uom,base.group_portal,1,0,0,0
+access_product_pricelist_portal,product.pricelist.portal,product.model_product_pricelist,base.group_portal,1,0,0,0
+access_product_pricelist_item_portal,product.pricelist.item.portal,product.model_product_pricelist_item,base.group_portal,1,0,0,0
+access_product_category_portal,product.category.portal,product.model_product_category,base.group_portal,1,0,0,0
+access_product_packaging_portal,product.product.packaging,product.model_product_packaging,base.group_portal,1,0,0,0
+access_res_currency_portal,base.res.currency,base.model_res_currency,base.group_portal,1,0,0,0
+access_ir_sequence_portal,base.ir.sequence,base.model_ir_sequence,base.group_portal,1,0,0,0
+access_res_users_portal,base.res.users,base.model_res_users,base.group_portal,1,0,0,0

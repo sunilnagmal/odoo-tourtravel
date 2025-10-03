@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_hotel_voucher_document">
+    <t t-call="web.external_layout">
+      <t t-set="doc" t-value="doc.with_context(lang=doc.customer_id.lang)" />
+      <div class="page">
+        <div class="oe_structure" id="oe_structure_hotel_voucher_document" />
+
+        <t t-if="doc.state == 'draft'">
+          <div class="watermark"
+            style="position:absolute;opacity:0.4;font-size:5em;height:100%width:100%;text-align:center;z-index:1000;right:350px;top:400px;border:0;-webkit-transform:rotate(45deg);">
+            Tentative confirmation
+          </div>
+        </t>
+
+        <div class="row" id="informations1">
+          <div class="col-6">
+            <span>To:</span>
+            <span t-field="doc.customer_id.name" />
+          </div>
+          <div class="col-6">
+            <span>Date:</span>
+            <span t-field="doc.order_id.date_order" />
+          </div>
+        </div>
+        <div class="row" id="informations2">
+          <div class="col-6">
+            <span>Ref:</span>
+            <span t-field="doc.order_id.name" />
+          </div>
+          <div class="col-6">
+            <span>Guest name:</span>
+            <span t-esc="doc.order_id.traveler_name" />
+          </div>
+        </div>
+        <div class="row" id="informations2">
+          <div class="col-6">
+            <span>Option Date:</span>
+            <span t-field="doc.validity_date" />
+          </div>
+          <div class="col-6">
+            <span>Hotel conf no.:</span>
+            <span t-field="doc.reservation_number" />
+          </div>
+        </div>
+        <br />
+        <br />
+        <div class="row" id="greetings">
+          <div class="col-12">
+            <strong>Dear </strong>
+            <strong t-esc="doc.order_id.traveler_name" /> , <br />
+            <span>We
+            seize
+              this opportunity to thank you very much for you kind interest and confidence in</span>
+            <strong
+              t-field="doc.company_id.name" />
+            <span> with reference to the above-mentioned subject,
+            we are delighted.</span>
+          </div>
+        </div>
+        <br />
+        <div class="row" id="reservation_details">
+          <table class="table table-sm o_main_table">
+            <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+            <thead style="display: table-row-group">
+              <tr>
+                <th name="th_hotel_name" class="text-left">Hotel Name</th>
+                <th name="th_room_type" class="text-right">Room Type</th>
+                <th name="th_view" class="text-right">View</th>
+                <th name="th_meal" class="text-right">Meal</th>
+                <th name="th_total_room" class="text-right">Total Room</th>
+                <th name="th_check_in" class="text-right">Check In</th>
+                <th name="th_check_out" class="text-right">Check Out</th>
+                <th name="th_night" class="text-right">Nights</th>
+                <!-- <th name="th_rate" class="text-right">Rate</th>
+                <th name="th_total" class="text-right">Total</th> -->
+              </tr>
+            </thead>
+            <tbody class="sale_tbody">
+              <t t-foreach="doc" t-as="line">
+                <t t-foreach="line.tl_detail_ids" t-as="room">
+                  <tr>
+                    <td name="td_hotel_name">
+                      <span t-field="line.product_template_id" />
+                    </td>
+                    <td name="td_room_type">
+                      <span t-field="room.room_type_id" />
+                    </td>
+                    <td name="td_view">
+                      <span t-field="room.room_view_id" />
+                    </td>
+                    <td name="td_meal">
+                      <span t-field="room.meal_plan_id" />
+                    </td>
+                    <td name="td_number_rooms">
+                      <span t-field="room.quantity" />
+                    </td>
+                    <td name="td_check_in">
+                      <span t-field="line.start_date" />
+                    </td>
+                    <td name="td_check_out">
+                      <span t-field="line.end_date" />
+                    </td>
+                    <td name="td_nights">
+                      <span t-field="line.nights" />
+                    </td>
+                    <!-- <td name="td_rate"><span t-field="line.price_unit"/></td>
+                    <td name="td_subtotal"><span t-field="line.price_subtotal"/></td> -->
+                  </tr>
+                </t>
+              </t>
+            </tbody>
+          </table>
+          <!-- <div class="clearfix" name="so_total_summary">
+                <div id="total" class="row" name="total">
+                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                        <table class="table table-sm table-borderless">
+                  <tr>
+                  <td>Net Total: <span t-field="line.price_subtotal"/>
+                  </td>
+                  </tr>
+                        </table>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+        <br />
+        <div class="row" id="remarks">
+          <div class="col-12">
+            <strong>Terms and conditions</strong>
+            <p>
+              <span t-field="doc.order_id.note" />
+            </p>
+          </div>
+        </div>
+        <div class="row" id="bank_details">
+          <div class="col-12">
+            <center>
+              <strong>Bank details</strong>
+            </center>
+          </div>
+        </div>
+        <div class="row" id="bank_details2">
+          <div class="col-6">
+            <u>
+              <strong>India</strong>
+            </u>
+            <p>Account Name: BALAIYA TOURS AND TRAVEL<br /> Bank Name: HDFC Bank - Mumbai<br />
+              Branch: Mindspace<br /> Account No.: 50200031808080<br /> IFSC Code: HDFC0000411<br />
+              SWIFT code: HDFCINBB</p>
+          </div>
+          <div class="col-6">
+            <u>
+              <strong>Uk</strong>
+            </u>
+            <p>Account Name: Holiday Planners Ltd<br /> Bank Name: Starling Bank<br /> Account No.:
+              42613809<br /> Sort Code: 608371</p>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <template id="travel_voucher_report_hotel" inherit_id="travel_core.travel_voucher_report">
+    <xpath expr="//t[@t-as='doc']" position="inside">
+      <t t-if="doc.travel_type == 'hotel'" t-call="travel_hotel.report_hotel_voucher_document"
+        t-lang="doc.customer_id.lang" />
+    </xpath>
+  </template>
+
+</odoo>

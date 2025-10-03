@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="travel_line_details_form_view" model="ir.ui.view">
+        <field name="name">travel.travel.line.details.hotel.form.view</field>
+        <field name="model">travel.line.details</field>
+        <field name="priority">5</field>
+        <field name="inherit_id" ref="travel_core.travel_line_details_form_view" />
+        <field name="arch" type="xml">
+            <group name="product_attributes" position="inside">
+                <label for="meal_plan_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'hotel')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'hotel')]}">
+                    <field name="meal_plan_id" context="{'show_attribute': False}" />
+                </div>
+                <label for="room_type_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'hotel')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'hotel')]}">
+                    <field name="room_type_id" context="{'show_attribute': False}" />
+                </div>
+                <label for="room_view_id"
+                    attrs="{'invisible': [('travel_type', '!=', 'hotel')]}" />
+                <div attrs="{'invisible': [('travel_type', '!=', 'hotel')]}">
+                    <field name="room_view_id" context="{'show_attribute': False}" />
+                </div>
+            </group>
+        </field>
+    </record>
+
+</odoo>

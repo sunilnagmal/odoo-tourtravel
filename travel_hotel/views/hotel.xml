@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- <record id="travel_product_hotel_action" model="ir.actions.act_window"> -->
+    <!-- <field name="name">Hotels</field> -->
+    <!-- <field name="type">ir.actions.act_window</field> -->
+    <!-- <field name="res_model">product.template</field> -->
+
+    <!--            <field name="view_mode">tree,form</field>-->
+    <!--            <field name="view_id" ref="travel_product_hotel_tree_view"/>-->
+    <!--            <field name="search_view_id" ref="travel_product_hotel_search_view"/>-->
+    <!--            <field name="context">{'category': 'hotel'}</field>-->
+    <!--            <field name="help" type="html">-->
+    <!--                <p class="oe_view_nocontent_create">-->
+    <!--                    Click to define a new product.-->
+    <!--                </p>-->
+    <!--            </field>-->
+    <!--        </record>-->
+
+    <!--        <menuitem action="travel_product_hotel_action" id="travel_product_hotel_menu" parent="travel_core.travel_menu_products" sequence="2"/>-->
+
+</odoo>

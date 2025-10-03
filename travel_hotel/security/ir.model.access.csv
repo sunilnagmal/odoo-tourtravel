@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+travel_hotel.access_travel_hotel_allotment,access_travel_hotel_allotment,travel_hotel.model_travel_hotel_allotment,travel_core.group_travel_user,1,1,1,1
+travel_hotel.access_allotment_state,access_allotment_state,travel_hotel.model_allotment_state,travel_core.group_travel_user,1,1,1,1
+travel_hotel.access_import_hotel,access_import_hotel,travel_hotel.model_import_hotel,travel_core.group_travel_user,1,1,1,1

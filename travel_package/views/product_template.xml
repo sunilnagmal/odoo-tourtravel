@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<odoo>
+
+
+    <record id="travel_product_package_search_view" model="ir.ui.view">
+        <field name="name">travel.product.package.search.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <filter name="filter_to_sell" position="before">
+                <filter name="filter_travel_package" string="Package products" domain="[('travel_type', '=', 'package')]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="travel_package_product_template_form_view" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <page name="Travel Information" position="inside">
+                <group string="Package Informations" attrs="{'invisible': [('travel_type', '!=', 'package')]}">
+                </group>
+            </page>
+        </field>
+    </record>
+
+    <record id="product_template_action_package_product" model="ir.actions.act_window">
+        <field name="name">Packages</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban,tree,form,activity</field>
+        <field name="context" eval="{'search_default_filter_travel_package': 1, 'default_travel_product': True, 'default_travel_type': 'package'}"/>
+    </record>
+
+    <menuitem id="travel_product_package_menu" action="product_template_action_package_product" parent="travel_core.travel_menu_products" sequence="48"/>
+
+</odoo>
